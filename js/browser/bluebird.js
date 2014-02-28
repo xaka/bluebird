@@ -4227,7 +4227,9 @@ if (typeof process !== "undefined" && process !== null &&
     typeof process.cwd === "function" &&
     typeof process.nextTick === "function") {
 
-    schedule = process.nextTick;
+    schedule = function Promise$_Scheduler(fn) {
+        process.nextTick(fn);
+    };
 }
 else if ((typeof MutationObserver === "function" ||
         typeof WebkitMutationObserver === "function" ||

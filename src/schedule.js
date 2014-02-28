@@ -6,7 +6,12 @@ if (typeof process !== "undefined" && process !== null &&
     typeof process.cwd === "function" &&
     typeof process.nextTick === "function") {
 
-    schedule = process.nextTick;
+    // do not cache `process.nextTick` as node.js
+    // will replace it with a different reference as soon
+    // as you do `require('domain')` in your code
+    schedule = function Promise$_Scheduler(fn) {
+        process.nextTick(fn);
+    };
 }
 else if ((typeof MutationObserver === "function" ||
         typeof WebkitMutationObserver === "function" ||
